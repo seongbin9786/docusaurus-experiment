@@ -1,0 +1,8 @@
+{
+  "label": "이렇게 이름을 지정할 수 있어요.",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "카드 박스 아래 뷰에 이렇게 단순 텍스트로 설명을 쓸"
+  }
+}

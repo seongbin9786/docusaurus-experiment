@@ -1,0 +1,185 @@
+---
+sidebar_position: 2
+title: Docusaurus 블로그 만들기 1 - 기능 체험하기
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import TOCInline from '@theme/TOCInline';
+
+### 링크 걸어보기
+
+[출처 - 자동으로 대상 웹사이트의 url이 표시되면 정말 좋을텐데](https://docusaurus.io/docs/markdown-features/head-metadata)
+
+[[Link: Head metadata | docusaurus.io]](https://docusaurus.io/docs/markdown-features/head-metadata)
+
+링크 마크업은 개선하면 더 좋을 것 같다. 내 전용으로.
+
+### 문서 제목이랑 주소 설정하기
+
+FrontMatter란 문서의 처음에 있는 `---`과 `---` 사이의 내용을 의미한다.
+
+`id`를 설정하면 해당 id가 주소가 된다. 놀랍게도 한국어도 주소로 사용 가능한데, 
+
+`아이디도%20한국말이%20되나요`(실제 주소창에서는 띄어쓰기로 입력하면 자동 변환됨)와 같이 구동된다. 
+
+`title`을 설정하면? 오 반영된다.
+
+# Tutorial Intro 얘는 `#`이지만 제목으로 설정되진 않는다.
+
+이 페이지는 md로 작성하면 변환된다. 아주 좋다.
+
+### JSX 써보기
+
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+    {label: 'Banana', value: 'banana'},
+  ]}>
+  <TabItem value="apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+
+### Admonition(Callout) 써보기
+
+:::note
+
+신기하게도 Docusaurus에서 언어 설정을 `ko`로 하니 `note`가 `노트`로 표시된다.
+
+:::
+
+:::danger Admonition 써보기... `:::`에다가 `type`을 쓰고 뒤에 Title을 입력하는 것이었다...
+
+그냥 markdown 문법이 들어오면 된다고 한다. JSX도 된다.
+
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: 'Apple', value: 'apple'},
+    {label: 'Orange', value: 'orange'},
+    {label: 'Banana', value: 'banana'},
+  ]}>
+  <TabItem value="apple">This is an apple 🍎</TabItem>
+  <TabItem value="orange">This is an orange 🍊</TabItem>
+  <TabItem value="banana">This is a banana 🍌</TabItem>
+</Tabs>
+
+:::
+
+### 코드 써보기
+
+자바스크립트를 한 번 써볼까?
+
+가독성이 너무 좋다.
+
+```js
+minE[0].hasK = 0; // 시작점, 비용 없음.
+minE[1].hasK = costs[0].one; // 두번 째 돌
+minE[2].hasK = Math.min(costs[0].two, minE[1].hasK + costs[1].one); // 세 번째 돌
+
+// 네 번째 돌
+for (let i = 3; i < N; i++) {
+    // hasK 계산
+    const from_HasK_DoubleJump = minE[i - 2].hasK + costs[i - 2].two; // 둘째 돌(1)에서 더블 점프(3)
+    const from_HasK_SingleJump = minE[i - 1].hasK + costs[i - 1].one; // 셋째 돌(2)에서 싱글 점프(4)
+    minE[i].hasK = Math.min(from_HasK_SingleJump, from_HasK_DoubleJump);
+    
+    // usedK 계산
+    const from_UsedK_DoubleJump = minE[i - 2].usedK + costs[i - 2].two;
+    const from_UsedK_SingleJump = minE[i - 1].usedK + costs[i - 1].one;
+    const from_HasK_TripleJump = minE[i - 3].hasK + three;
+    minE[i].usedK = Math.min(from_UsedK_SingleJump, from_UsedK_DoubleJump, from_HasK_TripleJump);
+}
+
+// N번째 돌의 비용
+console.log(Math.min(minE[N - 1].hasK, minE[N - 1].usedK));
+```
+
+### ToC를 본문에도 표시해보기
+
+인라인으로 ToC도 표시할 수 있다.
+
+해당 markdown을 파싱해서 보여줘야 할텐데 어떻게 했는지 궁금하다.
+
+<TOCInline toc={toc} />
+
+### 스타일 커스터마이징 해보기
+
+https://docusaurus.io/docs/styling-layout
+
+애초에 기본 스타일 자체를 변경하는 그런 기능은 없는 것 같다.
+
+있다. `src/css/custom.css`에 CSS Variable이 테마 별로 정의되어 있다. 
+
+여기서 손쉽게 색상 등을 변경할 수 있다. 아마 자세한 커스텀은 Infima 자체를 좀 봐야 할 수 있을 것 같다.
+
+#### 그 외 내 커스텀 컴포넌트에 스타일링을 추가하는 방법
+
+방법 1 - `docusaurus.config.js`에 추가로 로딩할 커스텀 CSS을 명시할 수 있다.
+
+방법 2 - Docusaurus의 기반인 [Infima(class 기반)](https://docusaurus.io/docs/styling-layout#styling-your-site-with-infima), 이걸 override 하기
+
+방법 3 - CSS Modules, Sass 를 만들고 import 하기
+
+#### 커스텀 폰트 쓰기
+
+https://github.com/facebook/docusaurus/issues/3788#issuecomment-732280580
+
+Custom CSS에서 `@font-face` 정의하고 `:root`에서 `font-family` 지정하면 된다.
+
+#### 스타일 Swizzling (TODO)
+
+- https://docusaurus.io/docs/swizzling
+- 갑자기 엄청 어려운데?ㅋㅋ
+
+### 가이드를 보던 중... 검색 기능도 되나?
+
+공식 지원되는 integration은 Algolia Docsearch 였다.
+
+근데 놀랍게도 기술 블로그도 된다고 해서 한 번 지원해봐야겠다.
+
+https://docsearch.algolia.com/apply/
+
+이게 소형 개인 블로그도 기술 블로그면 지원 되는 것인지는 애매해서 해봐야 알 것 같다.
+
+일단 검색을 무료로 managed 서비스를 쓸 수 있다는 게 매우 좋을 것 같다.
+
+#### 그 외의 검색 integration
+
+- Typesense - https://cloud.typesense.org/pricing - free tier 없음
+- 그 외 - 로컬에서 검색 지원해야 https://docusaurus.io/community/resources#search
+
+내 생각엔 로컬에서 인덱싱한 후 거기서 찾게 하는 것도 좋을 것 같다.
+
+예를 들어 https://github.com/daldridge/docusaurus-plugin-lunr 이런 게 있다.
+
+한 번 실행해봐야 실제 크기를 체감할 수 있을 것 같다.
+
+물론 인덱스 파일이 많이 클 수도 있을텐데 그거는 잘 모르겠다 ㅎㅎ
+
+오히려 gzip 하면 꽤 줄어들 것 같다는 생각이 드는데..
+
+### 빌드 해보기
+
+`pnpm build` 쉽다.
+`pnpm serve`로 쉽게 실행도 가능하다~!
+
+### GitHub Pages로 배포하기 (TODO)
+
+https://docusaurus.io/docs/deployment#deploying-to-github-pages
+
+GitHub Actions 설정이 필요
+
+근데 내 기존 GitHub 블로그가 있기 때문에 날릴 수가 없어서, 당장은 Vercel을 쓰는 게 좋겠다.
+
+### SEO
+
+https://docusaurus.io/docs/seo
+
+### 배포
+
+https://docusaurus.io/docs/deployment
